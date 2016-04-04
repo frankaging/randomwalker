@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-
+import rospy
+import std_msgs.msg import String
 """
 ### Steps for this file:
 
@@ -22,16 +23,18 @@ def main():
     This is a text-based user interface that allows us to manually move the
     robot, by publishing to this topic.
     """
+    rospy.init_node('teleop')
     # TODO: Make this into a ROS node called 'teleop' using init_node.
     # TODO: Create a publisher for the 'move_command' topic, of type
     # std_msgs/String. Don't forget to import the String message class.
-    cmd_publisher = None
+    cmd_publisher = rospy.Publisher('move_command', String)
     while True:
         try:
             cmd = raw_input('Movement command ("up", "down", "left", or "right"): ')
             if cmd != 'up' and cmd != 'down' and cmd != 'left' and cmd != 'right':
                 continue
             # TODO: Publish cmd onto the 'move_command' topic.
+            cmd_publisher.publish(cmd)
         except EOFError: # Exit the program on Ctrl-D.
             print
             return
